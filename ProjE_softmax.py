@@ -175,7 +175,7 @@ class ProjE:
 
         bound = 6 / math.sqrt(embed_dim)
 
-        with tf.device('/cpu'):
+        with tf.device('/gpu'):
             self.__ent_embedding = tf.get_variable("ent_embedding", [self.__n_entity, embed_dim],
                                                    initializer=tf.random_uniform_initializer(minval=-bound,
                                                                                              maxval=bound,
@@ -354,7 +354,7 @@ class ProjE:
 
 
 def train_ops(model: ProjE, learning_rate=0.1, optimizer_str='gradient', regularizer_weight=1.0):
-    with tf.device('/cpu'):
+    with tf.device('/gpu'):
         train_hrt_input = tf.placeholder(tf.int32, [None, 2])
         train_hrt_weight = tf.placeholder(tf.float32, [None, model.n_entity])
         train_trh_input = tf.placeholder(tf.int32, [None, 2])
@@ -379,7 +379,7 @@ def train_ops(model: ProjE, learning_rate=0.1, optimizer_str='gradient', regular
 
 
 def test_ops(model: ProjE):
-    with tf.device('/cpu'):
+    with tf.device('/gpu'):
         test_input = tf.placeholder(tf.int32, [None, 3])
         head_ids, tail_ids = model.test(test_input)
 
